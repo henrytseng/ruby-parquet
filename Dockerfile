@@ -1,4 +1,4 @@
-FROM ruby:2.6.6-alpine3.13 AS builder
+FROM ruby:2.6.6-alpine3.13
 
 RUN apk add --update --no-cache \
       autoconf \
@@ -57,6 +57,6 @@ RUN cd /usr/src && \
   ninja install
 
 RUN cd /usr/src/arrow && \
-  meson setup c_glib.build c_glib --buildtype=release && \
-  meson compile -C c_glib.build && \
-  meson install -C c_glib.build
+ meson setup c_glib.build c_glib --buildtype=release -Darrow_cpp_build_dir=/usr/src/arrow/cpp/release && \
+ meson compile -C c_glib.build && \
+ meson install -C c_glib.build
