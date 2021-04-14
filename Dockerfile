@@ -48,15 +48,16 @@ RUN cd /usr/src && \
   wget https://downloads.apache.org/arrow/arrow-3.0.0/apache-arrow-3.0.0.tar.gz && \
   tar xf apache-arrow-3.0.0.tar.gz && \
   mv apache-arrow-3.0.0 arrow && \
+  rm -f apache-arrow-3.0.0 && \
   cd arrow && \
   cd cpp && \
   mkdir release && \
   cd release && \
   cmake -GNinja -DARROW_DATASET=ON -DARROW_COMPUTE=ON -DARROW_JSON=ON -DARROW_PARQUET=ON -DARROW_CSV=ON .. && \
   ninja && \
-  ninja install
-
-RUN cd /usr/src/arrow && \
+  ninja install&& \
+  cd /usr/src/arrow && \
  meson setup c_glib.build c_glib --buildtype=release -Darrow_cpp_build_dir=/usr/src/arrow/cpp/release && \
  meson compile -C c_glib.build && \
- meson install -C c_glib.build
+ meson install -C c_glib.build && \
+ rm -rf /usr/src/arrow
